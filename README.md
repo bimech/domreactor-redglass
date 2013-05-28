@@ -1,4 +1,4 @@
-# RedGlassPlugins::Plugins::DomReactor
+# DomReactor + RedGlass
 
 A RedGlass plugin which enables snapshot archives to be analyzed by DomReactor.
 
