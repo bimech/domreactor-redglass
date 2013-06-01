@@ -75,13 +75,26 @@ module DomReactorRedGlass
     found_archive
   end
 
+  def archive_metadata(archive_location)
+    metadata = []
+    Dir.foreach(archive_location) do |file|
+      next if file == '.' or file == '..'
+      path = "#{archive_location}/#{file}"
+      if is_valid_page_archive? path
+        metadata << parse_json_file("#{path}/metadata.json")
+      end
+    end
+    metadata
+  end
+
   def init_chain_reaction(api_token, archive_location, config)
     payload = {
         auth_token: api_token,
         analysis_only: true,
         threshold: config[:threshold] || 0.04,
         baseline_browser: config[:baseline_browser],
-        archive_count: sum_archive_count(archive_location)
+        archive_count: sum_archive_count(archive_location),
+        metadata: archive_metadata(archive_location)
     }.to_json
     api_url = config[:api_url] || DOMREACTOR_INIT_CHAIN_REACTION_URL
     response = RestClient.post(api_url, payload, content_type: 'application/json') do |response|

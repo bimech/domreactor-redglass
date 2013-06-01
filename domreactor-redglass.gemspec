@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name          = 'domreactor-redglass'
-  s.version       = '0.0.1'
-  s.date          = '2013-05-27'
+  s.version       = '0.0.2'
+  s.date          = '2013-05-31'
   s.summary       = 'DomReactor plugin for RedGlass.'
   s.description   = 'Send RedGlass page archives to DomReactor for automated layout analysis.'
   s.authors       = ["Frank O'Hara"]
