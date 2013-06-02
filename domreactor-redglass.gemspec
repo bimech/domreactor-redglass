@@ -12,6 +12,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'json'
   s.add_dependency 'rubyzip'
   s.add_dependency 'red-glass', '>= 0.1.1'
-  s.add_development_dependency 'rspec'
+
+  s.add_development_dependency "bundler", "~> 1.3"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rspec", "~> 2.13.0"
   s.add_development_dependency 'selenium-webdriver'
 end
