@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../lib/domreactor-redglass'
+
 include DomReactorRedGlass
 
 SPEC_ROOT = File.dirname(__FILE__).to_s
