@@ -7,8 +7,7 @@ include DomReactorRedGlass
 browsers = [:firefox, :chrome]
 archive_location = '/Users/you/Desktop/red_glass_snapshots'
 test_id = 1
-api_token = '12345'
-config = {
+opts = {
     baseline_browser: {name: 'firefox', version: '20.0', platform: 'darwin'},
     threshold: 0.02
 }
@@ -24,4 +23,5 @@ browsers.each do |browser|
 end
 
 # Send the page archives to DomReactor.
-DomReactorRedGlass.create_chain_reaction(api_token, "#{archive_location}/#{test_id}", config)
+DomReactorRedGlass.api_token = '12345'
+DomReactorRedGlass.create_chain_reaction('http://google.com', "#{archive_location}/#{test_id}", opts)

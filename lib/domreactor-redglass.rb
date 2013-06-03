@@ -1,6 +1,7 @@
 require 'json'
 require 'rest-client'
-require 'zip/zip'
+require 'domreactor-redglass/chain_reaction'
+require 'domreactor-redglass/version'
 
 module DomReactorRedGlass
 
@@ -8,15 +9,20 @@ module DomReactorRedGlass
   REQUIRED_BASELINE_BROWSER_CONFIG_KEYS = [:name, :version, :platform]
   DOMREACTOR_INIT_CHAIN_REACTION_URL = 'http://domreactor.com/api/v1/chain_reactions'
 
-  def create_chain_reaction(api_token, archive_location, config)
+  def create_chain_reaction(page_url, archive_location, opts)
     detect_archive_location archive_location
     detect_min_archive_quota archive_location
-    detect_baseline_browser archive_location, config
-    id = init_chain_reaction(api_token, archive_location, config)[:chain_reaction][:id]
-    api_url = config[:api_url] || DOMREACTOR_INIT_CHAIN_REACTION_URL
-    post_url = "#{api_url}/#{id}"
-    archive_files = zip_archives archive_location
-    post_archives(api_token, post_url, archive_files)
+    detect_baseline_browser archive_location, opts
+    @chain_reaction = ChainReaction.new(page_url, opts)
+    @chain_reaction.post_archives(archive_location)
+  end
+
+  def api_token=(api_token)
+    @api_token = api_token
+  end
+
+  def api_token
+    @api_token
   end
 
   def detect_archive_location(archive_location)
@@ -85,53 +91,6 @@ module DomReactorRedGlass
       end
     end
     metadata
-  end
-
-  def init_chain_reaction(api_token, archive_location, config)
-    payload = {
-        auth_token: api_token,
-        analysis_only: true,
-        threshold: config[:threshold] || 0.04,
-        baseline_browser: config[:baseline_browser],
-        archive_count: sum_archive_count(archive_location),
-        metadata: archive_metadata(archive_location)
-    }.to_json
-    api_url = config[:api_url] || DOMREACTOR_INIT_CHAIN_REACTION_URL
-    response = RestClient.post(api_url, payload, content_type: 'application/json') do |response|
-      unless response.code == 200 && response.body.match(/chain_reaction/)
-        raise "ChainReaction initialization failed with code #{response.code} : #{response.body}"
-      end
-      response
-    end
-    JSON.parse(response, symbolize_names: true)
-  end
-
-  def zip_archives(archive_location)
-    zip_files = []
-    Dir.foreach(archive_location) do |file|
-      next if file == '.' or file == '..'
-      path = "#{archive_location}/#{file}"
-      if is_valid_page_archive? path
-        zip_file = "#{path}.zip"
-        zip_files << zip_file
-        Zip::ZipFile.open(zip_file, Zip::ZipFile::CREATE) do |zipfile|
-          REQUIRED_ARCHIVE_FILES.each do |filename|
-            zipfile.add(filename, path + '/' + filename)
-          end
-        end
-      end
-    end
-    zip_files
-  end
-
-  def post_archives(api_token, post_url, zip_files)
-    zip_files.each do |file|
-      payload = {
-          auth_token: api_token,
-          file: File.new(file, 'rb')
-      }
-      RestClient.put(post_url, payload)
-    end
   end
 
   def parse_json_file(path)

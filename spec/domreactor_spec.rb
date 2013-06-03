@@ -30,25 +30,16 @@ describe DomReactorRedGlass do
       .to raise_error('A page archive that corresponds to the baseline browser configuration is required.')
     end
   end
-  describe '.init_chain_reaction' do
-    it 'returns a ChainReaction object' do
-      expected_response = {:chain_reaction => {:id => 1}}
-      RestClient.should_receive(:post).once.and_return(expected_response.to_json)
-      DomReactorRedGlass.init_chain_reaction('api_token', "#{SPEC_ROOT}/data/valid_archive", {})
-      .should eq expected_response
-    end
-  end
-  describe '.zip_archives' do
-    it 'creates a zip file for each page archive' do
-      Zip::ZipFile.stub(:open)
-      DomReactorRedGlass.zip_archives("#{SPEC_ROOT}/data/valid_archive")
-      .find_all {|file| file.match(/.zip/)}.count.should eq 2
+  describe '.api_token' do
+    it "sets the api token" do
+      DomReactorRedGlass.api_token = 'abc123'
+      DomReactorRedGlass.api_token.should eq('abc123')
     end
   end
 
   describe '.create_chain_reaction' do
     it 'requires a valid archive location' do
-      expect { DomReactorRedGlass.create_chain_reaction('api_token', '/does_not_exist', {})}
+      expect { DomReactorRedGlass.create_chain_reaction('some_url', '/does_not_exist', {})}
       .to raise_error('A valid archive location is required.')
     end
   end
