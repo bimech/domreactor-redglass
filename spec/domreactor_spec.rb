@@ -2,8 +2,6 @@ require 'spec_helper'
 
 include DomReactorRedGlass
 
-SPEC_ROOT = File.dirname(__FILE__).to_s
-
 describe DomReactorRedGlass do
   describe '.detect_archive_location' do
     it 'requires a valid archive location' do
