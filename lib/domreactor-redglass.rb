@@ -1,6 +1,7 @@
 require 'json'
 require 'rest-client'
 require 'domreactor-redglass/chain_reaction'
+require 'domreactor-redglass/config'
 require 'domreactor-redglass/version'
 
 module DomReactorRedGlass
@@ -9,20 +10,20 @@ module DomReactorRedGlass
   REQUIRED_BASELINE_BROWSER_CONFIG_KEYS = [:name, :version, :platform]
   DOMREACTOR_INIT_CHAIN_REACTION_URL = 'http://domreactor.com/api/v1/chain_reactions'
 
+  def auth_token=(auth_token)
+    Config.auth_token=auth_token
+  end
+
+  def auth_token
+    Config.auth_token
+  end
+
   def create_chain_reaction(page_url, archive_location, opts)
     detect_archive_location archive_location
     detect_min_archive_quota archive_location
     detect_baseline_browser archive_location, opts
     @chain_reaction = ChainReaction.new(page_url, opts)
     @chain_reaction.post_archives(archive_location)
-  end
-
-  def api_token=(api_token)
-    @api_token = api_token
-  end
-
-  def api_token
-    @api_token
   end
 
   def detect_archive_location(archive_location)

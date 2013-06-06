@@ -30,10 +30,10 @@ describe DomReactorRedGlass do
       .to raise_error('A page archive that corresponds to the baseline browser configuration is required.')
     end
   end
-  describe '.api_token' do
-    it "sets the api token" do
-      DomReactorRedGlass.api_token = 'abc123'
-      DomReactorRedGlass.api_token.should eq('abc123')
+  describe '.auth_token' do
+    it "sets the auth token" do
+      DomReactorRedGlass.auth_token = 'abc123'
+      DomReactorRedGlass.auth_token.should eq('abc123')
     end
   end
 
