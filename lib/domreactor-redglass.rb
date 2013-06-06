@@ -1,5 +1,3 @@
-require 'json'
-require 'rest-client'
 require 'domreactor-redglass/chain_reaction'
 require 'domreactor-redglass/config'
 require 'domreactor-redglass/version'
@@ -8,7 +6,6 @@ module DomReactorRedGlass
 
   REQUIRED_ARCHIVE_FILES = %w(dom.json metadata.json screenshot.png source.html)
   REQUIRED_BASELINE_BROWSER_CONFIG_KEYS = [:name, :version, :platform]
-  DOMREACTOR_INIT_CHAIN_REACTION_URL = 'http://domreactor.com/api/v1/chain_reactions'
 
   def auth_token=(auth_token)
     Config.auth_token=auth_token
