@@ -29,7 +29,8 @@ browsers.each do |browser|
 end
 
 # Send the page archives to DomReactor.
-DomReactorRedGlass.create_chain_reaction(api_token, "#{archive_location}/#{test_id}", opts)
+DomReactorRedGlass.auth_token = '12345'
+DomReactorRedGlass.create_chain_reaction("#{archive_location}/#{test_id}", opts)
 ```
 
 # License
