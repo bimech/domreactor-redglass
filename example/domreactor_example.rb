@@ -23,5 +23,5 @@ browsers.each do |browser|
 end
 
 # Send the page archives to DomReactor.
-DomReactorRedGlass.api_token = '12345'
+DomReactorRedGlass.auth_token = '12345'
 DomReactorRedGlass.create_chain_reaction('http://google.com', "#{archive_location}/#{test_id}", opts)
