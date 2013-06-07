@@ -25,8 +25,10 @@ describe DomReactorRedGlass::ChainReaction do
   describe '#post_archives' do
     before do
       chain_reaction.stub(:create_dom_gun_reaction) { {id: 81, stuff: true} }
-      chain_reaction.should_receive(:get_web_browser_info).twice.and_return({id: 22, browser: 'firefox'})
-      RestClient.should_receive(:put).twice
+      chain_reaction.stub(:get_web_browser_info).exactly(4).times.
+        with({:name=>"firefox", :version=>"20.0", :platform=>"darwin"}) { {id: 22, browser: 'firefox'} }
+      RestClient.should_receive(:put).exactly(3).times
+      RestClient.should_receive(:post).once
     end
     it 'creates a dom gun reaction' do
       chain_reaction.post_archives("#{SPEC_ROOT}/data/valid_archive")
