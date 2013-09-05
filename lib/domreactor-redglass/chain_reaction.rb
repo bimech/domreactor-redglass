@@ -31,41 +31,32 @@ module DomReactorRedGlass
       @info ||= create_chain_reaction(@opts)
     end
 
+
     def post_archives(archive_location)
-      web_browser_ids = []
-      #TODO: Cache the web prowser for each archive location.
-      Dir.foreach(archive_location) do |file|
-        next if file == '.' or file == '..'
-        path = "#{archive_location}/#{file}"
-        if is_valid_page_archive? path
-          web_browser_ids << get_web_browser_info(parse_json_file("#{path}/metadata.json")[:browser])[:id]
-        end
-      end
-      update_chain_reaction(web_browser_ids: web_browser_ids)
-      dom_gun_reaction = create_dom_gun_reaction
       Dir.foreach(archive_location) do |file|
         next if file == '.' or file == '..'
         path = "#{archive_location}/#{file}"
         if is_valid_page_archive? path
           payload = create_payload(path)
-          RestClient.put("#{chain_reaction_url}/dom_gun_reactions/#{dom_gun_reaction[:id]}", payload, content_type: 'application/json')
+          create_dom_gun_reaction(payload)
         end
       end
-      start_reaction(dom_gun_reaction[:id])
-    end
-
-    def start_reaction(id)
-      params = {
-        auth_token: auth_token,
-      }
-      RestClient.post("#{chain_reaction_url}/dom_gun_reactions/#{id}/start", params, content_type: 'application/json')
-    end
-
-    def baseline_browser
-      get_web_browser_info(@opts[:baseline_browser])
+      start_reaction
     end
 
     private
+
+    def start_reaction
+      params = {
+        auth_token: auth_token,
+      }
+      RestClient.post("#{chain_reaction_url}/start", params, content_type: 'application/json')
+    end
+
+
+    def create_dom_gun_reaction(payload)
+      RestClient.post("#{chain_reaction_url}/dom_gun_reactions", payload, content_type: 'application/json')
+    end
 
     def get_web_browser_info(browser_info={})
       parameters = {auth_token: auth_token,content_type: 'application/json', accept: :json}.merge(browser_info)
@@ -74,8 +65,8 @@ module DomReactorRedGlass
       JSON.parse(response, symbolize_names: true)[:web_browsers].first
     end
 
-    def update_chain_reaction(params)
-      RestClient.put(chain_reaction_url, params.merge(auth_token: auth_token), content_type: 'application/json')
+    def baseline_browser
+      get_web_browser_info(@opts[:baseline_browser])
     end
 
     def create_chain_reaction(opts)
@@ -94,22 +85,13 @@ module DomReactorRedGlass
       JSON.parse(response, symbolize_names: true)[:chain_reaction]
     end
 
-    def create_dom_gun_reaction
-      payload = {
-        chain_reaction_id: id,
-        auth_token: auth_token,
-        page_url: page_url
-      }
-      dom_gun = RestClient.post("#{chain_reaction_url}/dom_gun_reactions", payload, content_type: 'application/json')
-      JSON.parse(dom_gun, symbolize_names: true)
-    end
-
     def create_payload(path)
       meta_data = parse_json_file("#{path}/metadata.json")
       {
         auth_token: auth_token,
         meta_data: meta_data,
         web_browser_id: get_web_browser_info(meta_data[:browser])[:id],
+        page_url: meta_data[:page_url],
         dom_elements: File.open("#{path}/dom.json", 'rb') {|f| f.read},
         page_source: File.open("#{path}/source.html") {|f| f.read},
         file: File.open("#{path}/screenshot.png")
