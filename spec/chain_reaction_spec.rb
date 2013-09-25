@@ -29,10 +29,10 @@ describe DomReactorRedGlass::ChainReaction do
       chain_reaction.post_archives("#{SPEC_ROOT}/data/valid_archive")
     end
     it 'creates the payload' do
-      expect(chain_reaction).to have_received(:create_payload)
+      expect(chain_reaction).to have_received(:create_payload).twice
     end
     it 'creates the dom gun reactions' do
-      expect(chain_reaction).to have_received(:create_dom_gun_reaction)
+      expect(chain_reaction).to have_received(:create_dom_gun_reaction).twice
     end
   end
   describe '#id' do
