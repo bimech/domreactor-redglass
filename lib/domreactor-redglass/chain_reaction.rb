@@ -61,7 +61,7 @@ module DomReactorRedGlass
     def get_web_browser_info(browser_info={})
       parameters = {auth_token: auth_token,content_type: 'application/json', accept: :json}.merge(browser_info)
       #TODO: Handle errors.
-      response = RestClient.post("#{Config.url}/api/v1/web_browsers", {params: parameters})
+      response = RestClient.post("#{Config.url}/api/v1/web_browsers", parameters)
       JSON.parse(response, symbolize_names: true)[:web_browsers].first
     end
 
