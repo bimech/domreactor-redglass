@@ -6,12 +6,13 @@ require 'domreactor-redglass/version'
 Gem::Specification.new do |s|
   s.name          = 'domreactor-redglass'
   s.version       = DomReactorRedGlass::VERSION
-  s.date          = '2013-05-31'
+  s.date          = '2013-10-31'
   s.summary       = 'DomReactor plugin for RedGlass.'
   s.description   = 'Send RedGlass page archives to DomReactor for automated layout analysis.'
   s.authors       = ["Frank O'Hara", "Chris Lamb"]
   s.email         = ["frankj.ohara@gmail.com", "lamb.chrisr@gmail.com"]
   s.homepage      = 'https://github.com/bimech/domreactor-redglass'
+  s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
