@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe DomReactorRedGlass::ChainReaction do
-  let(:chain_reaction) { DomReactorRedGlass::ChainReaction.new('http://domreactor.com', {}) }
+  let(:chain_reaction) { DomReactorRedGlass::ChainReaction.new({}) }
   before do
     #stub chain reaction creation call
     RestClient.stub(:post) { {chain_reaction: {id: 42, some_info: 'yay'}}.to_json }

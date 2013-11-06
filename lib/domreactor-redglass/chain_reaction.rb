@@ -3,10 +3,9 @@ require 'rest-client'
 
 module DomReactorRedGlass
   class ChainReaction
-    attr_reader :id, :info, :page_url
+    attr_reader :id, :info
 
-    def initialize(page_url, opts)
-      @page_url = page_url
+    def initialize(opts)
       @opts = opts
       @info = info
     end

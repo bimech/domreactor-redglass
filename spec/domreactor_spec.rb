@@ -39,7 +39,7 @@ describe DomReactorRedGlass do
 
   describe '.create_chain_reaction' do
     it 'requires a valid archive location' do
-      expect { DomReactorRedGlass.create_chain_reaction('some_url', '/does_not_exist', {})}
+      expect { DomReactorRedGlass.create_chain_reaction('/does_not_exist', {})}
       .to raise_error('A valid archive location is required.')
     end
   end

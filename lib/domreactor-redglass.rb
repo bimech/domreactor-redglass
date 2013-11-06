@@ -15,11 +15,11 @@ module DomReactorRedGlass
     Config.auth_token
   end
 
-  def create_chain_reaction(page_url, archive_location, opts)
+  def create_chain_reaction(archive_location, opts)
     detect_archive_location archive_location
     detect_min_archive_quota archive_location
     detect_baseline_browser archive_location, opts
-    @chain_reaction = ChainReaction.new(page_url, opts)
+    @chain_reaction = ChainReaction.new(opts)
     @chain_reaction.post_archives(archive_location)
   end
 
