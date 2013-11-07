@@ -31,8 +31,7 @@ module DomReactorRedGlass
     end
 
 
-    def post_archives(archive_path)
-      archive_location = ArchiveLocation.new(archive_path)
+    def post_archives(archive_location)
       archive_location.archives.each do |archive|
         payload = create_payload(archive)
         create_dom_gun_reaction(payload)
@@ -85,8 +84,8 @@ module DomReactorRedGlass
       {
         auth_token: auth_token,
         meta_data: archive.meta_data,
-        web_browser_id: get_web_browser_info(meta_data[:browser])[:id],
-        page_url: archive.path_url,
+        web_browser_id: get_web_browser_info(archive.browser)[:id],
+        page_url: archive.page_url,
         dom_elements: archive.dom_elements,
         page_source: archive.page_source,
         file: archive.screenshot

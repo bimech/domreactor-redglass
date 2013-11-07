@@ -1,7 +1,6 @@
 module DomReactorRedGlass
   class Config
-    #DOMREACTOR_INIT_CHAIN_REACTION_URL = 'http://domreactor.com'
-    DOMREACTOR_INIT_CHAIN_REACTION_URL = 'http://localhost:3000'
+    DOMREACTOR_INIT_CHAIN_REACTION_URL = 'http://www.domreactor.com'
 
     class << self
       def url

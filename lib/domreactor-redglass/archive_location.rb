@@ -72,7 +72,7 @@ class ArchiveLocation
       next if file == '.' or file == '..'
       path = "#{location}/#{file}"
       if Archive.is_valid_page_archive? path
-        list << file
+        list << Archive.new(path)
       end
     end
     list
