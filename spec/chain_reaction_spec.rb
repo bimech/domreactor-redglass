@@ -26,7 +26,7 @@ describe DomReactorRedGlass::ChainReaction do
     before do
       chain_reaction.stub(:create_payload)
       chain_reaction.stub(:create_dom_gun_reaction)
-      chain_reaction.post_archives("#{SPEC_ROOT}/data/valid_archive")
+      chain_reaction.post_archives(ArchiveLocation.new("#{SPEC_ROOT}/data/valid_archive"))
     end
     it 'creates the payload' do
       expect(chain_reaction).to have_received(:create_payload).twice
