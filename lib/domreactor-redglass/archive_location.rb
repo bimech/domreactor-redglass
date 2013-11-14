@@ -9,11 +9,13 @@ class ArchiveLocation
   end
 
   def archives
-    @archives ||= archive_list
+    @archives ||= archive_list(location)
   end
 
   def validate!
     detect_archive_location
+    detect_min_archive_quota
+    detect_baseline_browser
   end
 
   def detect_archive_location
@@ -36,7 +38,7 @@ class ArchiveLocation
   end
 
   def is_valid_baseline_browser_config?(baseline_browser_config)
-    baseline_browser_config.keys == REQUIRED_BASELINE_BROWSER_CONFIG_KEYS
+    baseline_browser_config.keys.sort == REQUIRED_BASELINE_BROWSER_CONFIG_KEYS.sort
   end
 
 
@@ -66,11 +68,11 @@ class ArchiveLocation
     archive_count
   end
 
-  def archive_list
+  def archive_list(archive_location)
     list = []
-    Dir.foreach(location) do |file|
+    Dir.foreach(archive_location) do |file|
       next if file == '.' or file == '..'
-      path = "#{location}/#{file}"
+      path = "#{archive_location}/#{file}"
       if Archive.is_valid_page_archive? path
         list << Archive.new(path)
       end
