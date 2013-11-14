@@ -36,7 +36,7 @@ class Archive
     is_valid = false
     if File.directory? file
       dir_files = Dir.entries(file).delete_if {|name| name == '.' || name == '..'}
-      is_valid = true if dir_files == REQUIRED_ARCHIVE_FILES
+      is_valid = dir_files.sort == REQUIRED_ARCHIVE_FILES.sort
     end
     is_valid
   end
