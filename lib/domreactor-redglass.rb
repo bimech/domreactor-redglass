@@ -15,7 +15,7 @@ module DomReactorRedGlass
   end
 
   def create_chain_reaction(archive_location, opts)
-    archive_location = ArchiveLocation.new(archive_location)
+    archive_location = ArchiveLocation.new(archive_location, opts)
     archive_location.validate!
     @chain_reaction = ChainReaction.new(opts)
     @chain_reaction.post_archives(archive_location)
