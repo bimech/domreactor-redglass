@@ -24,4 +24,4 @@ end
 
 # Send the page archives to DomReactor.
 DomReactorRedGlass.auth_token = '12345'
-DomReactorRedGlass.create_chain_reaction('http://google.com', "#{archive_location}/#{test_id}", opts)
+DomReactorRedGlass.create_chain_reaction("#{archive_location}/#{test_id}", opts)

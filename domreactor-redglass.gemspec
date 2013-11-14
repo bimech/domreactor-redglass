@@ -6,7 +6,7 @@ require 'domreactor-redglass/version'
 Gem::Specification.new do |s|
   s.name          = 'domreactor-redglass'
   s.version       = DomReactorRedGlass::VERSION
-  s.date          = '2013-10-31'
+  s.date          = '2013-11-14'
   s.summary       = 'DomReactor plugin for RedGlass.'
   s.description   = 'Send RedGlass page archives to DomReactor for automated layout analysis.'
   s.authors       = ["Frank O'Hara", "Chris Lamb"]

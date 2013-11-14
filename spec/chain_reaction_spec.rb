@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe DomReactorRedGlass::ChainReaction do
-  let(:chain_reaction) { DomReactorRedGlass::ChainReaction.new('http://domreactor.com', {}) }
+  let(:chain_reaction) { DomReactorRedGlass::ChainReaction.new({}) }
   before do
     #stub chain reaction creation call
     RestClient.stub(:post) { {chain_reaction: {id: 42, some_info: 'yay'}}.to_json }
@@ -26,7 +26,7 @@ describe DomReactorRedGlass::ChainReaction do
     before do
       chain_reaction.stub(:create_payload)
       chain_reaction.stub(:create_dom_gun_reaction)
-      chain_reaction.post_archives("#{SPEC_ROOT}/data/valid_archive")
+      chain_reaction.post_archives(ArchiveLocation.new("#{SPEC_ROOT}/data/valid_archive"))
     end
     it 'creates the payload' do
       expect(chain_reaction).to have_received(:create_payload).twice
