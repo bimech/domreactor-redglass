@@ -3,6 +3,7 @@ require 'domreactor-redglass/archive'
 require 'domreactor-redglass/archive_location'
 require 'domreactor-redglass/config'
 require 'domreactor-redglass/version'
+require 'domreactor-redglass/report_poller'
 
 module DomReactorRedGlass
 
@@ -19,6 +20,12 @@ module DomReactorRedGlass
     archive_location.validate!
     @chain_reaction = ChainReaction.new(opts)
     @chain_reaction.post_archives(archive_location)
+  end
+
+  def poll_report(opts={})
+    poller = ReportPoller.new(@chain_reaction, opts)
+    poller.poll_completion
+    poller.report
   end
 
   def parse_json_file(path)

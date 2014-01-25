@@ -23,7 +23,7 @@ module DomReactorRedGlass
     end
 
     def id
-      id ||= info[:id]
+      @id ||= info[:id]
     end
 
     def info
